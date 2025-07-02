@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-pod
+  labels:
+    app: simple-pod
+spec:
+  containers:
+  - name: simple-pod
+    image: nginx
+    resources:
+      # 최소 자원 요구량
+      # 파드가 실행될 때 최소한 요구하는 자원 여유가 있는 노드로 스케줄링하여 실행
+      requests:
+        # cpu 코어 하나의 연산 능력을 기준으로 설정
+        # ex) cpu 코어 하나의 연산량이 100일 때 10%만큼의 연산 능력을 할당
+        cpu: 0.1
+        memory: 200M
+      # 최대 자원 요구량
+      limits:
+        cpu: 0.5
+        memory: 1G
+    ports:
+    - containerPort: 80
