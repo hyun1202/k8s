@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  # 파드명 설정
+  name: mynginx
+  # 오브젝트 식별 레이블 설정
+  labels:
+    app: mynginx
+spec:
+  # .spec.containers[]이므로 -를 사용하여 하위 필드를 배열 형태로 묶음
+  containers:
+    # 컨테이너명 설정
+  - name: mynginx
+    # 이미지
+    image: nginx
+    # 컨테이너에 접속할 포트 번호 설정
+    ports:
+    - containerPort: 80
