@@ -21,6 +21,13 @@ kind: StatefulSet
 metadata:
   name: web
 spec:
+  # 파드 업데이트, 기본 값은 롤링 업데이트
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # 필드 값 1보다 작은 번호의 파드들은 변경 사항을 업데이트 하지 않음
+      # kubectl get po -o jsonpath="{range .items[*]}.{.metadata.name}{.spec.containers[0].env}{'\n'}{end}" 로 변경 사항 확인
+      partition: 1
   selector:
     matchLabels:
       app: nginx-statefulset
@@ -39,3 +46,6 @@ spec:
         ports:
         - containerPort: 80
           name: web
+        env:
+        - name: testenv
+          value: testvalue03
