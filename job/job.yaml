@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl
+        # 원주율 계산
+        command: ["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      # 재시작 정책
+      # Never: 파드가 항상 성공으로 끝남
+      # OnFailure: 파드 안 컨테이너가 비정상 종료 시 컨테이너 재시작
+      restartPolicy: Never
+  # 잡 실행이 실패했을 때 최대 재시작 횟수 설정
+  # backoff로 점차 재시작 대기 시간을 늘림
+  # 파드 실행이 완료되면 재시도 횟수는 0으로 초기화
+  backoffLimit: 4
