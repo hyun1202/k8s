@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  # 스케줄 지정
+  schedule: "*/1 * * * *"
+  # 지정된 시간에 크론잡이 실행되지 못했을 때 아래 설정한 시간까지 지나면 크론잡이 실행되지 않음
+  startingDeadlineSeconds: 600
+  # 크론잡이 실행하는 잡의 동시성 관리
+  # 기본 값은 Allow
+  # Allow: 잡을 동시에 여러 개 실행
+  # Forbid: 잡을 동시에 실행하지 않음
+  # Replace: 이전에 실행했던 잡이 실행 중인 상태에서 새로운 잡을 실행할 시간일 때 이전에 실행 중이던 잡을 새로운 잡으로 대체
+  concurrencyPolicy: Forbid
+  # 어떤 작업 실행할 지 설정
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the kubernetes cluster
+          restartPolicy: OnFailure
