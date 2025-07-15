@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-service
+spec:
+  # 서비스 타입 지정, 기본 타입은 ClusterIP
+  type: NodePort
+  # 서비스와 연결할 파드에 설정한 .labels 필드 값
+  selector:
+    app: nginx-service
+  # 서비스에서 한꺼번에 포트 여러 개를 외부에 제공할 때는 ports[] 하위에 설정
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
