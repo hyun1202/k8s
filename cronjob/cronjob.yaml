@@ -12,7 +12,9 @@ spec:
   # Allow: 잡을 동시에 여러 개 실행
   # Forbid: 잡을 동시에 실행하지 않음
   # Replace: 이전에 실행했던 잡이 실행 중인 상태에서 새로운 잡을 실행할 시간일 때 이전에 실행 중이던 잡을 새로운 잡으로 대체
-  concurrencyPolicy: Forbid
+  concurrencyPolicy: Replace
+  # 크론잡 종료 여부, 기본 값은 flase
+  suspend: true
   # 어떤 작업 실행할 지 설정
   jobTemplate:
     spec:
@@ -24,5 +26,5 @@ spec:
             args:
             - /bin/sh
             - -c
-            - date; echo Hello from the kubernetes cluster
+            - date; echo Hello from the kubernetes cluster; sleep 6000
           restartPolicy: OnFailure
