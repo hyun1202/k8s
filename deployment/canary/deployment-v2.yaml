@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-testapp-canary
+  labels:
+    app: myapp
+    # 카나리 배포
+    version: canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      version: stable
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: stable
+    spec:
+      containers:
+      - name: testapp
+        image: arisu1000/simple-container-app:v0.2
+        ports:
+        - containerPort: 8080
